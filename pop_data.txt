@@ -1,0 +1,7 @@
+Python	Official Python Tutorial	http://docs.python.org/2/tutorial/
+Python	How to Think like a Computer Scientist	http://www.greenteapress.com/thinkpython/
+Python	Learn Python in 10 Minutes	http://www.korokithakis.net/tutorials/python/
+Django	Official Django Tutorial	https://docs.djangoproject.com/en/1.5/intro/tutorial01/
+Django	Django Rocks	http://www.djangorocks.com/
+Django	How to Tango with Django	http://www.tangowithdjango.com/
+Bash	Linux Command - Learning the Shell	http://linuxcommand.org/lc3_learning_the_shell.php
