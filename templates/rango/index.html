@@ -5,13 +5,22 @@
 <html>
 
 <head>
-	<title>{{title}}</title>
+	<title>Rango</title>
 </head>
 
 <body>
-	<h1>{{title}}</h1>
+	<h1>Rango</h1>
 	<img src="{% static "sheriff.jpg" %}" alt="sheriff.jpg" />
-	<p>{{body}}</p>
+	{% if categories %}
+		<h3>Top 5 categories</h3>	
+		<ul>
+			{% for cat in categories %}
+			<li>{{cat.name}}</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>There are no categories to display</p>
+	{% endif %}
 </body>
 
 </html>
