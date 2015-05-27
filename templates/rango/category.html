@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>{{category.name}}</title>
+</head>
+
+<body>
+	<h1>{{category.name}}</h1>
+	{% if pages %}
+		<p>Pages in this category:</p>
+		<ul>
+			{% for p in pages %}
+			<li><a href="{{p.url}}">{{p.title}}</a></li>
+			{% endfor %}
+		</ul>	
+	{% else %}
+		<p>There are no pages in this category</p>
+	{% endif %}
+</body>
+
+</html>
