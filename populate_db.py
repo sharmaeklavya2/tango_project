@@ -31,6 +31,8 @@ def populate():
 			continue
 		else:
 			cat_name, title, url = words[0:3]
+			if url[-1]=='\n':
+				url = url[:-1]
 		if len(words) == 4:
 			views = int(words[3])
 		add_page(cat_dict[cat_name], title, url, views)
