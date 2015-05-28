@@ -3,3 +3,4 @@ credentials.txt
 *.db
 __pycache__/
 media/*
+output.txt

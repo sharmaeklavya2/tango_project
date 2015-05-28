@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from models import Category, Page
+from form_models import CategoryForm, PageForm
 
 def index(request):
 	context = RequestContext(request)
@@ -25,3 +26,19 @@ def category(request, category_enc_name):
 		return HttpResponse(category_name + " is an invalid category")
 	
 	return render_to_response("rango/category.html",context_dict,context)
+
+def add_category(request):
+	context = RequestContext(request)
+	
+	if request.method == "POST":
+		form = CategoryForm(request.POST)
+		if form.is_valid():
+			form.save(commit=True)
+			return index(request)
+		else:
+			print form.errors
+			#return HttpResponse(form.errors)
+	else:
+		form = CategoryForm()
+	
+	return render_to_response("rango/add_category.html", {'form':form}, context)
