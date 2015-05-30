@@ -29,16 +29,30 @@ def category(request, category_enc_name):
 
 def add_category(request):
 	context = RequestContext(request)
+	context_dict  = {}
 	
 	if request.method == "POST":
 		form = CategoryForm(request.POST)
 		if form.is_valid():
-			form.save(commit=True)
-			return index(request)
+			newcat = form.save(commit=False)
+			#by using commit=False, we are just creating an object of type Category,
+			#we are not saving it to the database right now.
+			#we'll do that later by calling newcat.save()
+			if len(Category.objects.filter(name=newcat.name))==0:
+				newcat.save()
+				context_dict["add_success"] = "Category "+newcat.name+" added successfully"
+				return index(request)
+			else:
+				context_dict["exists_error"] = "Category already exists"
+				print("Category already exists")
 		else:
-			print form.errors
+			print(form.errors)
 			#return HttpResponse(form.errors)
 	else:
 		form = CategoryForm()
 	
-	return render_to_response("rango/add_category.html", {'form':form}, context)
+	context_dict['form']=form
+	return render_to_response("rango/add_category.html", context_dict, context)
+	
+#def add_page(request, category_enc_name):
+#	return HttpResponse("Adding pages is not yet implemented")
