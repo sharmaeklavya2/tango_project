@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add a page to category: {{category_name}}</title>
+</head>
+<body>
+	{% if form %}
+		<h1>Add a page to category: {{category_name}}</h1>
+		<p style="color:green">{{add_success}}</p>
+		<form id="page_form" method="post" action="/rango/add_page/{{category_enc_name}}/">
+			{% csrf_token %}
+			{% for field in form.hidden_fields %}
+				{{field}}
+			{% endfor %}
+			{% for field in form.visible_fields %}
+				{{field.errors}}
+				{{field.help_text}}
+				{{field}}
+				<br />
+			{% endfor %}
+			<input type="submit" name="submit" value="Submit" />
+		</form>
+		<p><a href="/rango/category/{{category_enc_name}}/">Back to {{category_name}} pages</a></p>
+	{% else %}
+		<p style="color:red">{{category_name}} is an invalid category</p>
+	{% endif %}
+	<p><a href="/rango/">Back to home page</a></p>	
+</body>
+</html>
