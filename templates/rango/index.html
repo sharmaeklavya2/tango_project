@@ -10,6 +10,11 @@
 
 <body>
 	<h1>Rango</h1>
+	{% if user.is_authenticated %}
+		<p>Hello {{user.username}}</p>
+	{% else %}
+		<p>Your are not logged in</p>
+	{% endif %}
 	<img src="{% static "sheriff.jpg" %}" alt="sheriff.jpg" />
 	{% if categories %}
 		<h3>Categories</h3>	

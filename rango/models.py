@@ -24,4 +24,4 @@ class UserProfile(models.Model):
 	picture = models.ImageField(blank=True, upload_to='profile_images')
 	
 	def __unicode__(self):
-		return self.user.username	
+		return self.user.username
