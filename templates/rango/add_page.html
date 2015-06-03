@@ -1,12 +1,7 @@
 {% extends "rango/base.html" %}
 
-{% block title_block %}
-Rango - Add page
-{% endblock %}
-
-{% block h1_block %}
-Add a page to category: {{category_name}}
-{% endblock %}
+{% block title_block %}Rango - Add page{% endblock %}
+{% block h1_block %}Add a page to category: {{category_name}}{% endblock %}
 
 {% block body_block %}
 	{% if form %}
@@ -22,7 +17,7 @@ Add a page to category: {{category_name}}
 				{{field}}
 				<br />
 			{% endfor %}
-			<input type="submit" name="submit" value="Submit" />
+			<button type="submit" class="btn btn-primary"/>Submit</button>
 		</form>
 		<p><a href="/rango/category/{{category_enc_name}}/">Back to {{category_name}} pages</a></p>
 	{% else %}

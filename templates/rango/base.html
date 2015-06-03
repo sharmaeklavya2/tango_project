@@ -40,7 +40,9 @@
 			<div class="span9">
 				<h1 style="text-align:center">{% block h1_block %}{% endblock %}</h1>
 				<div class="hero-unit">
-					{% block body_block %}{{base_body}}{% endblock %}
+					<div class="container">
+						{% block body_block %}{{base_body}}{% endblock %}
+					</div>
 				</div>
 			</div>
 		</div>

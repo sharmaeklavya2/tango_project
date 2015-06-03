@@ -4,20 +4,20 @@
 {% block h1_block %}Add a Category{% endblock %}
 
 {% block body_block %}
-	<p style="color:green">{{add_success}}</p>
-	<p style="color:red">{{exists_error}}</p>
-	<form id="category_form" method="post" action="/rango/add_category/">
-		{% csrf_token %}
-		{% for hidden in form.hidden_fields %}
-			{{hidden}}
-		{% endfor %}
+<p style="color:green">{{add_success}}</p>
+<p style="color:red">{{exists_error}}</p>
+<form id="category_form" method="post" action="/rango/add_category/" class="span6">
+	{% csrf_token %}
+	{% for hidden in form.hidden_fields %}
+		{{hidden}}
+	{% endfor %}
 		
-		{% for field in form.visible_fields %}
-			{{field.errors}}
-			{{field.help_text}}
-			{{field}}
-			<br />
-		{% endfor %}
-		<input type="submit" name="submit" value="Submit" />
-	</form>
+	{% for field in form.visible_fields %}
+		{{field.errors}}
+		{{field.help_text}}
+		{{field}}
+		<br />
+	{% endfor %}
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
 {% endblock %}

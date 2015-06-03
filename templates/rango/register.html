@@ -5,12 +5,12 @@
 
 {% block body_block %}
 	<p style="color:green">{{reg_success}}</p>
-	<form id="register_form" method="POST" action="/rango/register/" enctype="multipart/form-data">
+	<form id="register_form" method="POST" action="/rango/register/" enctype="multipart/form-data" class="form-signin span8">
 		{% csrf_token %}
 		<table>
 			{{uform.as_table}}
 			{{upform.as_table}}
 		</table>
-		<input type="submit" name="submit" value="Submit" />
+		<button type="submit" class="btn btn-primary"/>Register</button>
 	</form>
 {% endblock %}
