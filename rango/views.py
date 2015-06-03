@@ -24,16 +24,18 @@ def category(request, category_enc_name):
 		context_dict['pages']=pages
 		context_dict['category']=cat
 	except Category.DoesNotExist:
-		return HttpResponse(category_name + " is an invalid category")
+		context_dict['base_title'] = "Rango - invalid category"
+		context_dict['base_body'] = category_name + " is an invalid category"
+		return render_to_response("rango/base.html", context_dict, context)
 	
 	return render_to_response("rango/category.html",context_dict,context)
 
 def add_category(request):
 
-	if request.user.is_authenticated():
-		context = RequestContext(request)
-		context_dict  = {}
+	context = RequestContext(request)
+	context_dict  = {}
 	
+	if request.user.is_authenticated():
 		if request.method == "POST":
 			form = CategoryForm(request.POST)
 			if form.is_valid():
@@ -49,8 +51,11 @@ def add_category(request):
 	
 		context_dict['form']=form
 		return render_to_response("rango/add_category.html", context_dict, context)
+
 	else:
-		return HttpResponse("You can't add categories because you are not logged in")
+		context_dict['base_title'] = "Rango - not logged in"
+		context_dict['base_body'] = "You can't add categories because you are not logged in"
+		return render_to_response("rango/base.html", context_dict, context)
 	
 def add_page(request, category_enc_name):
 	context = RequestContext(request)
@@ -71,11 +76,13 @@ def add_page(request, category_enc_name):
 				form = PageForm()
 			context_dict['form']=form
 		else:
-			return HttpResponse("You can't add pages because you are not logged in")
+			context_dict['base_title'] = "Rango - not logged in"
+			context_dict['base_body'] = "You can't add pages because you are not logged in"
+			return render_to_response("rango/base.html", context_dict, context)
 	except Category.DoesNotExist:
-		pass
-		# form is not added to context_dict when category is invalid
-		# the add_page template depends on this behavior to determine if category is invalid
+		context_dict['base_title'] = "Rango - invalid category"
+		context_dict['base_body'] = category_name + " is an invalid category"
+		return render_to_response("rango/base.html", context_dict, context)
 	
 	return render_to_response("rango/add_page.html", context_dict, context)
 	
@@ -103,7 +110,6 @@ def register(request):
 		upform = UserProfileForm()
 	context_dict['uform'] = uform
 	context_dict['upform'] = upform
-#	return HttpResponse("Registration page is yet to be implemented")
 	return render_to_response("rango/register.html", context_dict, context)
 
 def user_login(request):
@@ -127,6 +133,10 @@ def user_login(request):
 def user_logout(request):
 	if request.user.is_authenticated():
 		logout(request)
-		return HttpResponse("You have successfully logged out")
+		return HttpResponseRedirect("/rango/")
 	else:
-		return HttpResponse("You are already logged out")
+		context = RequestContext(request)
+		context_dict={
+			"base_body":'You are already logged out.',
+		}
+		return render_to_response("rango/base.html", context_dict, context)

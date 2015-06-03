@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Register</title>
-</head>
-<body>
-	<h1>Register</h1>
+{% extends "rango/base.html" %}
+
+{% block title_block %}Rango - Register{% endblock %}
+{% block h1_block %}Register at Rango{% endblock %}
+
+{% block body_block %}
 	<p style="color:green">{{reg_success}}</p>
 	<form id="register_form" method="POST" action="/rango/register/" enctype="multipart/form-data">
 		{% csrf_token %}
-		{{uform.as_p}}
-		{{upform.as_p}}
+		<table>
+			{{uform.as_table}}
+			{{upform.as_table}}
+		</table>
 		<input type="submit" name="submit" value="Submit" />
 	</form>
-</body>
-</html>
+{% endblock %}

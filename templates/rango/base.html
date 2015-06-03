@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>{% block title_block %}{{base_title |default:"Rango"}}{% endblock %}</title>
+	<style>{% block style_block %}{% endblock %}</style>
+	<style></style>
+</head>
+<body>
+	<div>
+		<h1 style="text-align:center">{% block h1_block %}{% endblock %}</h1>
+		{% block body_block %}{{base_body}}{% endblock %}
+	</div>
+	<footer style="clear:both">
+		<hr />
+		<ul>
+			<li><a href="/rango/">Rango homepage</a></li>
+			{% if user.is_authenticated %}
+				<li>Logged in as: {{user.username}}</li>
+				<li><a href="/rango/logout/">Logout</a></li>
+			{% else %}
+				<li><a href="/rango/login/">Login</a></li>
+				<li><a href="/rango/register/">Register</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</body>
+</html>

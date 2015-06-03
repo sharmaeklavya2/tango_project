@@ -1,23 +1,18 @@
-<!DOCTYPE html>
-<html>
+{% extends "rango/base.html" %}
 
-<head>
-	<title>{{category.name}}</title>
-</head>
+{% block title_block %}Rango - {{category.name}}{% endblock %}
+{% block h1_block %}{{category.name}}{% endblock %}
 
-<body>
-	<h1>{{category.name}}</h1>
+{% block body_block	%}
 	{% if pages %}
 		<p>Pages in this category:</p>
 		<ul>
 			{% for p in pages %}
 			<li><a href="{{p.url}}">{{p.title}}</a></li>
 			{% endfor %}
-		</ul>	
+		</ul>
 	{% else %}
 		<p>There are no pages in this category</p>
 	{% endif %}
 	<p><a href="/rango/add_page/{{category.name}}/">Add pages to this category</a></p>
-</body>
-
-</html>
+{% endblock %}

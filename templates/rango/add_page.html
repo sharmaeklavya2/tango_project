@@ -1,11 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Add a page to category: {{category_name}}</title>
-</head>
-<body>
+{% extends "rango/base.html" %}
+
+{% block title_block %}
+Rango - Add page
+{% endblock %}
+
+{% block h1_block %}
+Add a page to category: {{category_name}}
+{% endblock %}
+
+{% block body_block %}
 	{% if form %}
-		<h1>Add a page to category: {{category_name}}</h1>
 		<p style="color:green">{{add_success}}</p>
 		<form id="page_form" method="post" action="/rango/add_page/{{category_enc_name}}/">
 			{% csrf_token %}
@@ -24,6 +28,4 @@
 	{% else %}
 		<p style="color:red">{{category_name}} is an invalid category</p>
 	{% endif %}
-	<p><a href="/rango/">Back to home page</a></p>	
-</body>
-</html>
+{% endblock %}

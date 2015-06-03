@@ -1,32 +1,34 @@
-<!DOCTYPE html>
-
+{% extends "rango/base.html" %}
 {% load static %}
 
-<html>
+{% block title_block %}Rango - Welcome{% endblock %}
+{% block h1_block %}Welcome to Rango{% endblock %}
 
-<head>
-	<title>Rango</title>
-</head>
+{% block style_block %}
+.maincol
+{
+	display: inline-block;
+	vertical-align:top;
+	margin: 1em;
+	text-align: left;
+}
+{% endblock %}
 
-<body>
-	<h1>Rango</h1>
-	{% if user.is_authenticated %}
-		<p>Hello {{user.username}}</p>
-	{% else %}
-		<p>Your are not logged in</p>
-	{% endif %}
-	<img src="{% static "sheriff.jpg" %}" alt="sheriff.jpg" />
-	{% if categories %}
-		<h3>Categories</h3>	
-		<ul>
-			{% for cat in categories %}
-			<li><a href="/rango/category/{{cat.enc_name}}/">{{cat.name}}</a></li>
-			{% endfor %}
-		</ul>
-	{% else %}
-		<p>There are no categories to display</p>
-	{% endif %}
-	<p><a href="/rango/add_category/">Add a category</a></p>
-</body>
-
-</html>
+{% block body_block %}
+<div style="text-align:center;">
+	<img class="maincol" src="{% static "sheriff.jpg" %}" alt="sheriff.jpg" />
+	<div class="maincol">
+		{% if categories %}
+			<h3>Categories</h3>	
+			<ul>
+				{% for cat in categories %}
+				<li><a href="/rango/category/{{cat.enc_name}}/">{{cat.name}}</a></li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>There are no categories to display</p>
+		{% endif %}
+		<p><a href="/rango/add_category/">Add a category</a></p>
+	</div>
+</div>
+{% endblock %}
