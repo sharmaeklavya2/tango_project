@@ -20,7 +20,9 @@ def category(request, category_enc_name):
 	
 	try:
 		cat = Category.objects.get(name=category_name)
-		pages = Page.objects.filter(category=cat)
+		cat.views+=1
+		cat.save()
+		pages = Page.objects.filter(category=cat).order_by('-views')
 		context_dict['pages']=pages
 		context_dict['category']=cat
 	except Category.DoesNotExist:
@@ -157,3 +159,21 @@ def search(request):
 			context_dict["result_list"] = result_list
 	
 	return render_to_response("rango/search.html", context_dict, context)
+
+def goto_page_url(request):
+	context = RequestContext(request)
+	context_dict = {}
+	
+	url="/rango/"
+	try:
+		if request.method=="GET" and ('page_id' in request.GET):
+			page_id = request.GET["page_id"]
+			page = Page.objects.get(id=page_id)
+			page.views+=1
+			page.save()
+			url = page.url
+			
+	except Page.DoesNotExist:
+		pass
+			
+	return HttpResponseRedirect(url)

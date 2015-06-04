@@ -2,13 +2,22 @@
 
 {% block title_block %}Rango - {{category.name}}{% endblock %}
 {% block h1_block %}{{category.name}}{% endblock %}
+{% block style_block %}
+.ekulm
+{padding-right:20px;}
+{% endblock %}
 
 {% block body_block	%}
+	<table>
+		<!-- lm means leave margin -->
+		<tr><td class="ekulm">Views:</td><td>{{category.views}}</td></tr>
+		<tr><td class="ekulm">Likes:</td><td>{{category.likes}}</td></tr>
+	</table>
 	{% if pages %}
 		<p>Pages in this category:</p>
 		<ul>
 			{% for p in pages %}
-			<li><a href="{{p.url}}">{{p.title}}</a></li>
+			<li><a href="/rango/goto/?page_id={{p.id}}">{{p.title}} ({{p.views}} views)</a></li>
 			{% endfor %}
 		</ul>
 	{% else %}
