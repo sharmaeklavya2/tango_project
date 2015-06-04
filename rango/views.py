@@ -140,3 +140,20 @@ def user_logout(request):
 			"base_body":'You are already logged out.',
 		}
 		return render_to_response("rango/base.html", context_dict, context)
+
+from bing_search import run_query
+
+def search(request):
+	context = RequestContext(request)
+	context_dict = {}
+	
+#	context_dict['base_title']="Rango - Search"
+#	context_dict['base_body']="Search is not yet implemented"
+	
+	if request.method=="POST":
+		query = request.POST["query"].strip()
+		if query:
+			result_list = run_query(query)
+			context_dict["result_list"] = result_list
+	
+	return render_to_response("rango/search.html", context_dict, context)
