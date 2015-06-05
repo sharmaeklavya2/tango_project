@@ -11,4 +11,8 @@ urlpatterns = patterns('',
 		url(r'^logout/$', views.user_logout, name='logout'),
 		url(r'^search/$', views.search, name='search'),
 		url(r'^goto/$', views.goto_page_url, name='goto'),
+		url(r'^users/$', views.view_all_users, name='users'),
+		url(r'^user/(?P<username>\w+)/$', views.view_user, name='users'),
+		url(r'^edit_profile/$', views.to_be_made, name='edit_profile'),
+		url(r'^change_password/$', views.to_be_made, name='change_password'),
 	)

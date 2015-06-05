@@ -1,9 +1,10 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from models import Category, Page
+from models import Category, Page, UserProfile
 from form_models import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 def index(request):
 	context = RequestContext(request)
@@ -12,6 +13,11 @@ def index(request):
 		cat.enc_name = cat.name.replace(' ','_')
 	context_dict = {'categories': category_list}
 	return render_to_response('rango/index.html', context_dict, context)
+
+def to_be_made(request):
+	context = RequestContext(request)
+	context_dict = {'base_body': "This page is yet to be implemented"}
+	return render_to_response("rango/base.html", context_dict, context)
 
 def category(request, category_enc_name):
 	context = RequestContext(request)
@@ -91,22 +97,26 @@ def add_page(request, category_enc_name):
 def register(request):
 	context = RequestContext(request)
 	context_dict = {}
-	register_success = False
+#	register_success = True
 	
 	if request.method=="POST":
 		uform = UserForm(request.POST)
 		upform = UserProfileForm(request.POST)
 		if uform.is_valid() and upform.is_valid():
-			user = uform.save()
+			user = uform.save(commit=False)
 			user.set_password(user.password)
-			user.save()
-			
-			uprofile = upform.save(commit = False)
-			uprofile.user = user
-			if 'picture' in request.FILES:
-				uprofile.picture = request.FILES['picture']
-			uprofile.save()
-			context_dict["reg_success"]="Registration successful"
+			if user.email=="":
+				context_dict["reg_error"]="Email address is required"
+			elif User.objects.filter(email=user.email).count() > 0:
+				context_dict["reg_error"]="This email address is already in use"
+			else:
+				user.save()
+				uprofile = upform.save(commit = False)
+				uprofile.user = user
+				if 'picture' in request.FILES:
+					uprofile.picture = request.FILES['picture']
+				uprofile.save()
+				context_dict["reg_success"]="Registration successful"
 	else:
 		uform = UserForm()
 		upform = UserProfileForm()
@@ -120,6 +130,12 @@ def user_login(request):
 	if request.method=="POST":
 		username = request.POST["username"]
 		password = request.POST["password"]
+		
+		#if username is invalid, treat it as email and try to get real username
+		if User.objects.filter(username=username).count()==0:
+			emails = User.objects.filter(email=username)
+			if emails.count()==1:
+				username = emails[0].username
 		user = authenticate(username=username,password=password)
 		
 		if user:
@@ -149,9 +165,6 @@ def search(request):
 	context = RequestContext(request)
 	context_dict = {}
 	
-#	context_dict['base_title']="Rango - Search"
-#	context_dict['base_body']="Search is not yet implemented"
-	
 	if request.method=="POST":
 		query = request.POST["query"].strip()
 		if query:
@@ -177,3 +190,28 @@ def goto_page_url(request):
 		pass
 			
 	return HttpResponseRedirect(url)
+
+def view_all_users(request):
+	context = RequestContext(request)
+	context_dict = {}
+#	context_dict["base_title"] = "Rango - users"
+#	context_dict["base_body"] = "List of all users is yet to be implemented"
+	users = User.objects.all()
+	context_dict["users"] = users
+	context_dict["no_of_users"] = len(users)
+	return render_to_response("rango/view_all_users.html", context_dict, context)
+
+def view_user(request, username):
+	context = RequestContext(request)
+	context_dict = {'username':username}
+	
+	try:
+		cuser = User.objects.get(username=username)
+		context_dict['cuser'] = cuser
+		cuprofile = UserProfile.objects.get(user=cuser)
+		context_dict['cuprofile'] = cuprofile
+	except User.DoesNotExist:
+		pass
+	
+	return render_to_response("rango/view_user.html", context_dict, context)
+

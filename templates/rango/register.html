@@ -5,6 +5,7 @@
 
 {% block body_block %}
 	<p style="color:green">{{reg_success}}</p>
+	<p style="color:red">{{reg_error}}</p>
 	<form id="register_form" method="POST" action="/rango/register/" enctype="multipart/form-data" class="form-signin span8">
 		{% csrf_token %}
 		<table>

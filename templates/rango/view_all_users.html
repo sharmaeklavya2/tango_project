@@ -1,0 +1,27 @@
+{% extends "rango/base.html" %}
+
+{% block title_block %}Rango - users{% endblock %}
+{% block h1_block %}List of all Rango users{% endblock %}
+{% block style_block %}
+td
+{
+	border: 1px solid black;
+	padding: 2px 10px 2px 10px;
+}
+{% endblock %}
+
+{% block body_block %}
+	<p>Number of users: {{no_of_users}}</p>
+
+	{% if no_of_users %}
+		<table>
+			<tr><td>username</td><td>Name</td></tr>
+			{% for u in users %}
+				<tr>
+					<td><a href="/rango/user/{{u.username}}/">{{u.username}}</a></td>
+					<td>{{u.first_name}} {{u.last_name}}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+{% endblock %}

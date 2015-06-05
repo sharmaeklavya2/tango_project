@@ -1,0 +1,33 @@
+{% extends "rango/base.html" %}
+
+{% block title_block %}Rango - profile{% endblock %}
+{% block h1_block %}{{username}}'s Profile{% endblock %}
+
+{% block body_block %}
+	{% if cuser %}
+		{% if cuser == user %}
+			<p><a href="/rango/edit_profile/">Edit your profile</a></p>
+			<p><a href="/rango/change_password/">Change your password</a></p>
+		{% endif %}
+		<table>
+			<tr>
+				<td>Username:</td>
+				<td>{{cuser.username}}</td>
+			</tr>
+			<tr>
+				<td>Email:</td>
+				<td>{{cuser.email}}</td>
+			</tr>
+			<tr>
+				<td>Name:</td>
+				<td>{{cuser.first_name}} {{cuser.last_name}}</td>
+			</tr>
+			<tr>
+				<td>Website:</td>
+				<td>{{cuprofile.website}}</td>
+			</tr>
+		</table>
+	{% else %}
+		<p>This user does not exist.</p>
+	{% endif %}
+{% endblock %}

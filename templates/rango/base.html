@@ -7,6 +7,14 @@
 	<link rel="stylesheet" href="{% static 'mybootstrap.css' %}" />
 	<link rel="stylesheet" media="screen" href="{% static 'bootstrap2/css/bootstrap.min.css' %}" />
 	<link rel="stylesheet" href="{% static 'bootstrap2/css/bootstrap-responsive.css' %}" />
+	<style>
+	{% block style_block_def %}
+		.helptext, .errorlist
+		{font-size:12px;}
+		.errorlist
+		{color:red;}
+	{% endblock %}
+	</style>
 	<style>{% block style_block %}{% endblock %}</style>
 </head>
 <body>
@@ -18,7 +26,7 @@
 					<ul class="nav pull-right">
 						<li><a href="/rango/">Rango homepage</a></li>
 						{% if user.is_authenticated %}
-							<li class="navbar-text">Logged in as: {{user.username}}</li>
+							<li><a href="/rango/user/{{user.username}}/">Logged in as: {{user.username}}</a></li>
 							<li><a href="/rango/logout/">Logout</a></li>
 						{% else %}
 							<li><a href="/rango/login/">Login</a></li>
@@ -35,6 +43,9 @@
 		<div class="row-fluid">
 			<div class="span3">
 				<div class="well sidebar-nav">
+					<ul>
+						<li><a href="/rango/users/">View registered users</a></li>
+					<ul>
 				</div>
 			</div>
 			<div class="span9">
