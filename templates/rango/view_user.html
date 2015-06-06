@@ -9,6 +9,9 @@
 			<p><a href="/rango/edit_profile/">Edit your profile</a></p>
 			<p><a href="/rango/change_password/">Change your password</a></p>
 		{% endif %}
+		{% if img_src %}
+			<img src="{{img_src}}" alt="Profile picture" width="200" />
+		{% endif %}
 		<table>
 			<tr>
 				<td>Username:</td>

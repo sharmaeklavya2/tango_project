@@ -5,6 +5,8 @@ from models import Category, Page, UserProfile
 from form_models import CategoryForm, PageForm, UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 def index(request):
 	context = RequestContext(request)
@@ -194,8 +196,6 @@ def goto_page_url(request):
 def view_all_users(request):
 	context = RequestContext(request)
 	context_dict = {}
-#	context_dict["base_title"] = "Rango - users"
-#	context_dict["base_body"] = "List of all users is yet to be implemented"
 	users = User.objects.all()
 	context_dict["users"] = users
 	context_dict["no_of_users"] = len(users)
@@ -210,8 +210,74 @@ def view_user(request, username):
 		context_dict['cuser'] = cuser
 		cuprofile = UserProfile.objects.get(user=cuser)
 		context_dict['cuprofile'] = cuprofile
+		img_src = cuprofile.picture.name
+		if img_src:
+			img_src = (settings.MEDIA_URL+img_src)
+		context_dict["img_src"] = img_src
 	except User.DoesNotExist:
 		pass
 	
 	return render_to_response("rango/view_user.html", context_dict, context)
 
+def edit_profile(request):
+	context_dict = {}
+
+	if not request.user.is_authenticated():
+		context_dict['base_title'] = "Rango - not logged in"
+		context_dict['base_body'] = "You must log in to edit your profile."
+		return render_to_response("rango/base.html", context_dict, context)
+
+	user = User.objects.get(username=request.user.username)
+	uprofile = UserProfile.objects.get(user=user)
+	
+	if request.method=="POST":
+		#set name
+		user.first_name = request.POST["first_name"]
+		user.last_name = request.POST["last_name"]
+		user.save()
+		request.user=user
+		#set email
+		email = request.POST["email"]
+		if not email:
+			context_dict["reg_error"]="Email cannot be blank"
+		elif email!=user.email and User.objects.filter(email=email).count()>0:
+			context_dict["reg_error"]="The email address "+email+" is already in use"
+		else:
+			user.email=email
+			user.save()
+			request.user=user
+		
+		upform = UserProfileForm(request.POST, instance=uprofile)
+		if upform.is_valid():
+			upr2 = upform.save(commit=False)
+			if 'picture' in request.FILES:
+				upr2.picture = request.FILES['picture']
+			upr2.save()
+	else:
+		#get current user's secondary data
+		upform = UserProfileForm(instance=uprofile)
+	
+	context_dict['upform']=upform;
+	return render_to_response("rango/edit_profile.html", context_dict, RequestContext(request))
+
+def change_password(request):
+	context = RequestContext(request)
+	context_dict={}
+	
+	if not request.user.is_authenticated():
+		context_dict['base_title'] = "Rango - not logged in"
+		context_dict['base_body'] = "You must log in to change your password."
+		return render_to_response("rango/base.html", context_dict, context)
+	
+	if request.method=="POST":
+		pass1 = request.POST["pass1"]
+		pass2 = request.POST["pass2"]
+		if pass1!=pass2:
+			context_dict["pass_error"] = "Passwords do not match"
+		elif pass1=="":
+			context_dict["pass_error"] = "Password can't be empty"
+		else:
+			request.user.set_password(pass1)
+			request.user.save()
+
+	return render_to_response("rango/change_password.html", context_dict, context)
