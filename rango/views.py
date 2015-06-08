@@ -279,6 +279,9 @@ def change_password(request):
 		else:
 			request.user.set_password(pass1)
 			request.user.save()
+			context_dict["base_title"] = "Rango - password changed"
+			context_dict["base_body"] = "Your password has been changed successfully."
+			return render_to_response("rango/base.html", context_dict, context)
 
 	return render_to_response("rango/change_password.html", context_dict, context)
 
