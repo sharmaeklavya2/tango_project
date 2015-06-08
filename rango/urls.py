@@ -15,4 +15,5 @@ urlpatterns = patterns('',
 		url(r'^user/(?P<username>\w+)/$', views.view_user, name='users'),
 		url(r'^edit_profile/$', views.edit_profile, name='edit_profile'),
 		url(r'^change_password/$', views.change_password, name='change_password'),
+		url(r'^like_category/$', views.like_category, name='like_category'),
 	)

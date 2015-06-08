@@ -281,3 +281,16 @@ def change_password(request):
 			request.user.save()
 
 	return render_to_response("rango/change_password.html", context_dict, context)
+
+def like_category(request):
+	#returning 0 means error
+	if request.user.is_authenticated() and request.method=="GET" and 'category_id' in request.GET:
+		category_id=request.GET['category_id']
+		try:
+			category = Category.objects.get(id=int(category_id))
+			category.likes+=1
+			category.save()
+			return HttpResponse(category.likes)
+		except Category.DoesNotExist:
+			pass
+	return HttpResponse(0)

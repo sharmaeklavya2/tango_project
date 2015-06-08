@@ -1,5 +1,7 @@
 {% extends "rango/base.html" %}
 
+{% load static %}
+
 {% block title_block %}Rango - {{category.name}}{% endblock %}
 {% block h1_block %}{{category.name}}{% endblock %}
 {% block style_block %}
@@ -8,11 +10,16 @@
 {% endblock %}
 
 {% block body_block	%}
-	<table>
-		<!-- lm means leave margin -->
-		<tr><td class="ekulm">Views:</td><td>{{category.views}}</td></tr>
-		<tr><td class="ekulm">Likes:</td><td>{{category.likes}}</td></tr>
-	</table>
+	<div class="container">
+		<table class="span2">
+			<!-- lm means leave margin -->
+			<tr><td class="ekulm">Likes:</td><td id="like_count">{{category.likes}}</td></tr>
+			<tr><td class="ekulm">Views:</td><td>{{category.views}}</td></tr>
+		</table>
+		{% if user.is_authenticated %}
+			<button type="button" id="like" data-catid="{{category.id}}" class="btn btn-mini btn-primary">Like</button>
+		{% endif %}
+	</div>
 	{% if pages %}
 		<p>Pages in this category:</p>
 		<ul>
@@ -24,4 +31,7 @@
 		<p>There are no pages in this category</p>
 	{% endif %}
 	<p><a href="/rango/add_page/{{category.name}}/">Add pages to this category</a></p>
+	{% if user.is_authenticated %}
+		<script src="{% static "js/rango-ajax.js" %}"></script>
+	{% endif %}	
 {% endblock %}
