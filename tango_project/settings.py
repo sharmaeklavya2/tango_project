@@ -22,7 +22,7 @@ SECRET_KEY = '+)sgp(#5)ixkbsued7%1u)obrucvg6l=zma22c+=auk!!=^z=y'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 TEMPLATE_DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
