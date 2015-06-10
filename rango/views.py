@@ -229,6 +229,7 @@ def edit_profile(request):
 
 	user = User.objects.get(username=request.user.username)
 	uprofile = UserProfile.objects.get(user=user)
+	context_dict["uprofile"] = uprofile
 	
 	if request.method=="POST":
 		#set name
@@ -249,13 +250,19 @@ def edit_profile(request):
 		
 		upform = UserProfileForm(request.POST, instance=uprofile)
 		if upform.is_valid():
-			upr2 = upform.save(commit=False)
+			uprofile = upform.save(commit=False)
 			if 'picture' in request.FILES:
-				upr2.picture = request.FILES['picture']
-			upr2.save()
+				uprofile.picture = request.FILES['picture']
+			uprofile.save()
+		upform = UserProfileForm(request.POST, instance=uprofile)
 	else:
 		#get current user's secondary data
 		upform = UserProfileForm(instance=uprofile)
+
+	img_src = uprofile.picture.name
+	if img_src:
+		img_src = (settings.MEDIA_URL+img_src)
+	context_dict["img_src"] = img_src
 	
 	context_dict['upform']=upform;
 	return render_to_response("rango/edit_profile.html", context_dict, RequestContext(request))

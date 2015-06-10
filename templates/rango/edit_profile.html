@@ -7,6 +7,10 @@
 <p style="color:red;">{{reg_error}}</p>
 <form id="user_form" method="POST" action="/rango/edit_profile/" enctype="multipart/form-data" class="form_signin">
 	{% csrf_token %}
+	{% if img_src %}
+	<div><img src="{{img_src}}" alt="Profile picture" style="max-width:100px;max-height:100px;" /></div>
+	{% endif %}
+	<br />
 	<table>
 		<tr>
 			<td>Email address:</td>
