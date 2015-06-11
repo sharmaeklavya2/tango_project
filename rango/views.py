@@ -208,15 +208,19 @@ def view_user(request, username):
 	try:
 		cuser = User.objects.get(username=username)
 		context_dict['cuser'] = cuser
-		cuprofile = UserProfile.objects.get(user=cuser)
+		try:
+			cuprofile = UserProfile.objects.get(user=cuser)
+		except UserProfile.DoesNotExist:
+			cuprofile = UserProfile(user=cuser)
+			cuprofile.save()
 		context_dict['cuprofile'] = cuprofile
 		img_src = cuprofile.picture.name
 		if img_src:
 			img_src = (settings.MEDIA_URL+img_src)
-		context_dict["img_src"] = img_src
+			context_dict["img_src"] = img_src
 	except User.DoesNotExist:
 		pass
-	
+		
 	return render_to_response("rango/view_user.html", context_dict, context)
 
 def edit_profile(request):
@@ -228,8 +232,11 @@ def edit_profile(request):
 		return render_to_response("rango/base.html", context_dict, context)
 
 	user = User.objects.get(username=request.user.username)
-	uprofile = UserProfile.objects.get(user=user)
-	context_dict["uprofile"] = uprofile
+	try:
+		uprofile = UserProfile.objects.get(user=user)
+	except UserProfile.DoesNotExist:
+		uprofile = UserProfile(user=user)
+		uprofile.save()
 	
 	if request.method=="POST":
 		#set name
