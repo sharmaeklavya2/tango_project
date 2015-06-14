@@ -4,7 +4,7 @@
 {% block h1_block %}Search using Bing Search API{% endblock %}
 
 {% block body_block %}
-<form class="form-signin span8" id="search_form" method="post" action="/rango/search/">
+<form class="form-signin span8" id="search_form" method="post" action="{% url 'rango:search' %}">
 	{% csrf_token %}
 	<input type="text" id="query" name="query" class="input-block-level" />
 	<button type="submit" class="btn btn-primary">Search</button>

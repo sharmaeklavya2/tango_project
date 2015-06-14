@@ -24,7 +24,7 @@ def to_be_made(request):
 def category(request, category_enc_name):
 	context = RequestContext(request)
 	category_name = category_enc_name.replace('_',' ')
-	context_dict = {}
+	context_dict = {"category_enc_name":category_enc_name}
 	
 	try:
 		cat = Category.objects.get(name=category_name)

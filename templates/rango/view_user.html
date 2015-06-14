@@ -6,8 +6,8 @@
 {% block body_block %}
 	{% if cuser %}
 		{% if cuser == user %}
-			<p><a href="/rango/edit_profile/">Edit your profile</a></p>
-			<p><a href="/rango/change_password/">Change your password</a></p>
+			<p><a href="{% url 'rango:edit_profile' %}">Edit your profile</a></p>
+			<p><a href="{% url 'rango:change_password' %}">Change your password</a></p>
 		{% endif %}
 		{% if img_src %}
 			<img src="{{img_src}}" alt="Profile picture" style="max-width:200px;max-height:200px;" />

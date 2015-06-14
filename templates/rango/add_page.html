@@ -6,7 +6,7 @@
 {% block body_block %}
 	{% if form %}
 		<p style="color:green">{{add_success}}</p>
-		<form id="page_form" method="post" action="/rango/add_page/{{category_enc_name}}/">
+		<form id="page_form" method="post" action="{% url 'rango:add_page' category_enc_name %}">
 			{% csrf_token %}
 			{% for field in form.hidden_fields %}
 				{{field}}
@@ -19,7 +19,7 @@
 			{% endfor %}
 			<button type="submit" class="btn btn-primary"/>Submit</button>
 		</form>
-		<p><a href="/rango/category/{{category_enc_name}}/">Back to {{category_name}} pages</a></p>
+		<p><a href="{% url 'rango:category' category_enc_name %}">Back to {{category_name}} pages</a></p>
 	{% else %}
 		<p style="color:red">{{category_name}} is an invalid category</p>
 	{% endif %}

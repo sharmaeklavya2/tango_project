@@ -4,7 +4,7 @@
 
 {% block body_block %}
 <p style="color:red">{{login_error}}</p>
-<form id="login_form" method="POST" action="/rango/login/" class="form-signin span4">
+<form id="login_form" method="POST" action="{% url 'rango:user_login' %}" class="form-signin span4">
 	{% csrf_token %}
 	Username:
 	<input type="text" name="username" class="input-block-level" />

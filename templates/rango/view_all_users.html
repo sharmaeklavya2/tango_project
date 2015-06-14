@@ -18,7 +18,7 @@ td
 			<tr><td>username</td><td>Name</td></tr>
 			{% for u in users %}
 				<tr>
-					<td><a href="/rango/user/{{u.username}}/">{{u.username}}</a></td>
+					<td><a href="{% url 'rango:view_user' u.username %}">{{u.username}}</a></td>
 					<td>{{u.first_name}} {{u.last_name}}</td>
 				</tr>
 			{% endfor %}

@@ -24,14 +24,14 @@
 		<p>Pages in this category:</p>
 		<ul>
 			{% for p in pages %}
-			<li><a href="/rango/goto/?page_id={{p.id}}">{{p.title}} ({{p.views}} views)</a></li>
+			<li><a href="{% url 'rango:goto_page_url' %}?page_id={{p.id}}">{{p.title}} ({{p.views}} views)</a></li>
 			{% endfor %}
 		</ul>
 	{% else %}
 		<p>There are no pages in this category</p>
 	{% endif %}
-	<p><a href="/rango/add_page/{{category.name}}/">Add pages to this category</a></p>
+	<p><a href="{% url 'rango:add_page' category_enc_name %}">Add pages to this category</a></p>
 	{% if user.is_authenticated %}
-		<script src="{% static "js/rango-ajax.js" %}"></script>
+		<script src="{% static 'js/rango-ajax.js' %}"></script>
 	{% endif %}	
 {% endblock %}

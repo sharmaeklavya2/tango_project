@@ -17,19 +17,19 @@
 {% block body_block %}
 <div style="text-align:left;">
 <!--<div class="hero-unit">-->
-	<img class="maincol" src="{% static "sheriff.jpg" %}" alt="sheriff.jpg" />
+	<img class="maincol" src="{% static 'sheriff.jpg' %}" alt="sheriff.jpg" />
 	<div class="maincol">
 		{% if categories %}
 			<h3>Categories</h3>	
 			<ul>
 				{% for cat in categories %}
-				<li><a href="/rango/category/{{cat.enc_name}}/">{{cat.name}}</a></li>
+				<li><a href="{% url 'rango:category' cat.enc_name %}">{{cat.name}}</a></li>
 				{% endfor %}
 			</ul>
 		{% else %}
 			<p>There are no categories to display</p>
 		{% endif %}
-		<p><a href="/rango/add_category/">Add a category</a></p>
+		<p><a href="{% url 'rango:add_category' %}">Add a category</a></p>
 	</div>
 </div>
 {% endblock %}

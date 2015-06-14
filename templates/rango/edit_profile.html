@@ -5,7 +5,7 @@
 
 {% block body_block %}
 <p style="color:red;">{{reg_error}}</p>
-<form id="user_form" method="POST" action="/rango/edit_profile/" enctype="multipart/form-data" class="form_signin">
+<form id="user_form" method="POST" action="{% url 'rango:edit_profile' %}" enctype="multipart/form-data" class="form_signin">
 	{% csrf_token %}
 	{% if img_src %}
 	<div><img src="{{img_src}}" alt="Profile picture" style="max-width:100px;max-height:100px;" /></div>
@@ -28,5 +28,5 @@
 	</table>
 	<button type="submit" class="btn btn-primary">Save</button>
 </form>
-<p><a href="/rango/change_password/">Change Password</a></p>
+<p><a href="{% url 'rango:change_password' %}">Change Password</a></p>
 {% endblock %}
