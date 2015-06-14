@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 def index(request):
 	context = RequestContext(request)
@@ -143,7 +144,7 @@ def user_login(request):
 		if user:
 			if user.is_active:
 				login(request, user)
-				return HttpResponseRedirect("/rango/")
+				return HttpResponseRedirect(reverse('rango:index'))
 			else:
 				context_dict["login_error"]="Your account has been disabled."
 		else:
@@ -153,7 +154,7 @@ def user_login(request):
 def user_logout(request):
 	if request.user.is_authenticated():
 		logout(request)
-		return HttpResponseRedirect("/rango/")
+		return HttpResponseRedirect(reverse('rango:index'))
 	else:
 		context = RequestContext(request)
 		context_dict={
@@ -179,7 +180,7 @@ def goto_page_url(request):
 	context = RequestContext(request)
 	context_dict = {}
 	
-	url="/rango/"
+	url=reverse('rango:index')
 	try:
 		if request.method=="GET" and ('page_id' in request.GET):
 			page_id = request.GET["page_id"]
