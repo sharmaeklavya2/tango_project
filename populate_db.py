@@ -6,7 +6,7 @@ def add_page(cat, title, url, views=0):
 
 def populate():
 	cat_dict = {}
-	
+
 	ifile = open("rango_pop_data/category.txt")
 	for line in ifile:
 		views=0
@@ -22,7 +22,7 @@ def populate():
 				likes = int(words[2])
 		cat_dict[cat_name] = add_cat(cat_name,views,likes)
 	ifile.close()
-	
+
 	ifile = open("rango_pop_data/page.txt")
 	for line in ifile:
 		views = 0
@@ -37,7 +37,7 @@ def populate():
 			views = int(words[3])
 		add_page(cat_dict[cat_name], title, url, views)
 	ifile.close()
-	
+
 	for c in Category.objects.all():
 		for p in Page.objects.filter(category=c):
 			print "- {0} - {1}".format(str(c),str(p))

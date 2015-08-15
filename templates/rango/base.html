@@ -4,9 +4,9 @@
 <html>
 <head>
 	<title>{% block title_block %}{{base_title |default:"Rango"}}{% endblock %}</title>
-	<link rel="stylesheet" href="{% static 'mybootstrap.css' %}" />
 	<link rel="stylesheet" media="screen" href="{% static 'bootstrap2/css/bootstrap.min.css' %}" />
 	<link rel="stylesheet" href="{% static 'bootstrap2/css/bootstrap-responsive.css' %}" />
+	<link rel="stylesheet" href="{% static 'mybootstrap.css' %}" />
 	<script src="{% static 'js/jquery.min.js' %}"></script>
 	<style>
 	{% block style_block_def %}
